@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("./db/config");
 const User = require("./db/Users");
+const Product = require("./db/Product");
 const app = express();
 
 app.use(express.json());
@@ -27,4 +28,14 @@ app.post("/login", async (req, res) => {
     res.send({ result: "No user found" });
   }
 });
+
+
+app.post("/add-product", async (req, res) => {
+  let user = new Product(req.body);
+  user.save().then((data) => {
+    console.log("add product api", data);
+    res.send(data);
+  });
+});
+
 app.listen(5000, () => console.log("server is runninng at 5000"));
