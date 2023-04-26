@@ -44,5 +44,12 @@ app.get("/products", async (req, res) => {
     res.send({ result: "No Product found" });
   }
 });
-
+app.delete("/delete/:id", async (req, res) => {
+  let products = await Product.deleteOne({_id: req.params.id});
+  if (products?.acknowledged) {
+    res.send(products);
+  } else {
+    res.send({ result: "Delete failed" });
+  }
+});
 app.listen(5000, () => console.log("server is runninng at 5000"));
