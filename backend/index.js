@@ -24,18 +24,25 @@ app.post("/login", async (req, res) => {
     } else {
       res.send({ result: "No user found" });
     }
-  }else {
+  } else {
     res.send({ result: "No user found" });
   }
 });
 
-
 app.post("/add-product", async (req, res) => {
-  let user = new Product(req.body);
-  user.save().then((data) => {
+  let product = new Product(req.body);
+  product.save().then((data) => {
     console.log("add product api", data);
     res.send(data);
   });
+});
+app.get("/products", async (req, res) => {
+  let products = await Product.find({});
+  if (products?.length > 0) {
+    res.send(products);
+  } else {
+    res.send({ result: "No Product found" });
+  }
 });
 
 app.listen(5000, () => console.log("server is runninng at 5000"));
