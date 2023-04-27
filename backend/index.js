@@ -44,6 +44,14 @@ app.get("/products", async (req, res) => {
     res.send({ result: "No Product found" });
   }
 });
+app.get("/product/:id", async (req, res) => {
+  let result = await Product.findOne({_id: req.params.id});
+  if (result) {
+    res.send(result);
+  } else {
+    res.send({ result: "No Product found" });
+  }
+});
 app.delete("/delete/:id", async (req, res) => {
   let products = await Product.deleteOne({_id: req.params.id});
   if (products?.acknowledged) {
