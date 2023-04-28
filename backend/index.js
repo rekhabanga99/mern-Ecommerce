@@ -45,19 +45,34 @@ app.get("/products", async (req, res) => {
   }
 });
 app.get("/product/:id", async (req, res) => {
-  let result = await Product.findOne({_id: req.params.id});
-  if (result) {
-    res.send(result);
+  let product = await Product.findOne({ _id: req.params.id });
+  if (product) {
+    res.send(product);
   } else {
     res.send({ result: "No Product found" });
   }
 });
 app.delete("/delete/:id", async (req, res) => {
-  let products = await Product.deleteOne({_id: req.params.id});
+  let products = await Product.deleteOne({ _id: req.params.id });
   if (products?.acknowledged) {
     res.send(products);
   } else {
     res.send({ result: "Delete failed" });
+  }
+});
+
+app.get("/search/:key", async (req, res) => {
+  let products = await Product.find({
+    $or: [
+      { name: req.params.key },
+      { category: req.params.key },
+      { company: req.params.key },
+    ],
+  });
+  if (products?.length > 0) {
+    res.send(products);
+  } else {
+    res.send({ result: "No Product found" });
   }
 });
 app.listen(5000, () => console.log("server is runninng at 5000"));
