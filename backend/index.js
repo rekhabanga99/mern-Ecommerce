@@ -70,9 +70,9 @@ app.get("/search/:key", async (req, res) => {
     ],
   });
   if (products?.length > 0) {
-    res.send(products);
+    res.send({ data: products, result: "Product found" });
   } else {
-    res.send({ result: "No Product found" });
+    res.send({ data: [], result: "No Product found" });
   }
 });
 app.listen(5000, () => console.log("server is runninng at 5000"));
